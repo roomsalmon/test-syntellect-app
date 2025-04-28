@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.group {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex-grow: 1;
+}
+
+.button {
+  white-space: nowrap;
+}
