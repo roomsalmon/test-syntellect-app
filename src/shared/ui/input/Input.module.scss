@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &.fullWidth {
+    width: 100%;
+  }
+}
+
+.label {
+  font-size: 14px;
+}
+
+.input {
+  padding: 16px 18px;
+  border: 1px solid #000;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.error {
+    border-color: #dc3545;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &:disabled {
+    background-color: #f1f1f1;
+  }
+}
