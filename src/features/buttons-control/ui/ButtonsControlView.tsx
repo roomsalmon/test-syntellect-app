@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styles from "./ButtonsControlView.module.scss";
 import { ButtonProps } from "../types";
 import { Button } from "../../../shared/ui/button";
@@ -18,37 +18,36 @@ export const ButtonsControlView = ({
   leftButtons,
   rightButtons,
 }: ButtonsControlViewProps) => {
+  const renderButtons = (buttons: ButtonProps[], prefix: string): ReactNode => {
+    return buttons.map((button, index) => (
+      <Button
+        key={`${prefix}-${index}`}
+        onClick={() => button.onClick(value, onChange)}
+        className={styles.button}
+      >
+        {button.text}
+      </Button>
+    ));
+  };
+
   return (
     <div className={cn(styles.container)}>
-      <div className={styles.group}>
-        {leftButtons?.map((button, index) => (
-          <Button
-            key={`left-${index}`}
-            onClick={() => button.onClick(value, onChange)}
-            className={styles.button}
-          >
-            {button.text}
-          </Button>
-        ))}
-      </div>
+      {leftButtons && (
+        <div className={styles.group}>{renderButtons(leftButtons, "left")}</div>
+      )}
 
       <Input
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={styles.input}
+        placeholder="Buttons control"
       />
 
-      <div className={styles.group}>
-        {rightButtons?.map((button, index) => (
-          <Button
-            key={`right-${index}`}
-            onClick={() => button.onClick(value, onChange)}
-            className={styles.button}
-          >
-            {button.text}
-          </Button>
-        ))}
-      </div>
+      {rightButtons && (
+        <div className={styles.group}>
+          {renderButtons(rightButtons, "right")}
+        </div>
+      )}
     </div>
   );
 };

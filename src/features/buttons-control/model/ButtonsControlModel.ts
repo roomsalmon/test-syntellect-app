@@ -14,10 +14,6 @@ class ButtonsControlModel {
   setValue = (value: string) => {
     this.value = value;
   };
-
-  clearValue = () => {
-    this.value = "";
-  };
 }
 
 export default ButtonsControlModel;
