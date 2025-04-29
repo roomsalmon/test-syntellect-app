@@ -6,7 +6,7 @@ import { ButtonsControl } from "../../../features/buttons-control";
 export const FirstButtonsControlsCase = () => {
   return (
     <Section>
-      <Text.H1>Buttons controls test case #1</Text.H1>
+      <Text.H1>Buttons control DEMO #1</Text.H1>
       <ButtonsControl
         rightButtons={[
           {

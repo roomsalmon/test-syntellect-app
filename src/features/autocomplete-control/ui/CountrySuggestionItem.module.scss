@@ -1,0 +1,28 @@
+.wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    gap: 12px;
+
+    .flag {
+        display: block;
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        object-position: center center;
+    }
+
+    .text {
+        display: flex;
+        flex-flow: column nowrap;
+
+        .name {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .fullName {
+            font-size: 14px;
+        }
+    }
+}
