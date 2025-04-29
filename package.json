@@ -48,5 +48,6 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
-  }
+  },
+  "homepage": "https://roomsalmon.github.io/test-syntellect-app/"
 }
