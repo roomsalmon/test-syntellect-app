@@ -1,12 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { fetchCountries } from "../api/countryApi";
+import { fetchCountries } from "../api/fetchCountries";
 import { Country } from "../../../entities/country";
+import { isNonEmptyString } from "../../../shared/lib";
 
 class AutocompleteControlModel {
   query: string = "";
   suggestions: Country[] = [];
   isLoading: boolean = false;
-  error: string | null = null;
   maxSuggestions: number;
 
   constructor(maxSuggestions: number = 5) {
@@ -16,19 +16,17 @@ class AutocompleteControlModel {
 
   setQuery = (value: string) => {
     this.query = value;
-    this.loadSuggestions();
   };
 
   loadSuggestions = async () => {
-    if (!this.query.trim()) {
+    if (!isNonEmptyString(this.query)) {
       runInAction(() => {
-        this.suggestions = [];
+        this.clearSuggestions();
       });
       return;
     }
 
     this.isLoading = true;
-    this.error = null;
 
     try {
       const data = await fetchCountries(this.query);
@@ -37,7 +35,7 @@ class AutocompleteControlModel {
       });
     } catch (error) {
       runInAction(() => {
-        this.error = "Failed to load suggestions";
+        console.error("Failed to load sugestions");
       });
     } finally {
       runInAction(() => {
@@ -48,6 +46,10 @@ class AutocompleteControlModel {
 
   selectSuggestion = (country: Country) => {
     this.query = country.name;
+    this.clearSuggestions();
+  };
+
+  clearSuggestions = () => {
     this.suggestions = [];
   };
 }

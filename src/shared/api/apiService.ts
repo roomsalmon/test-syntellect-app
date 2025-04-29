@@ -1,6 +1,12 @@
-import { countries, Country } from "../../entities/country";
+import { countries } from "../../entities/country";
 
-export function getCountryByName(countryName: string): Promise<Country[]> {
+export interface CountryInfo {
+  name: string;
+  fullName: string;
+  flag: string;
+}
+
+export function getCountryByName(countryName: string): Promise<CountryInfo[]> {
   return new Promise((resolve) => {
     setTimeout(resolve, getRandom(100, 800));
   }).then(() => {

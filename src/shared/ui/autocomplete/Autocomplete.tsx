@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { Input } from "../input";
 import { SelectPane } from "../select-pane";
 import styles from "./Autocomplete.module.scss";
 import cn from "classnames";
+import { useAutocomplete } from "./hooks/useAutocomplete";
 
 interface AutocompleteProps<T> {
   value: string;
@@ -25,36 +26,26 @@ export const Autocomplete = <T,>({
   isLoading = false,
   maxItems = 5,
 }: AutocompleteProps<T>) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  const filteredItems = items.slice(0, maxItems);
-
-  const handleClick = (item: T) => {
-    onClick(item);
-    setIsOpen(false);
-  };
-
-  const handleClickOutside = (e: MouseEvent) => {
-    if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const {
+    isOpen,
+    wrapperRef,
+    filteredItems,
+    handleClick,
+    handleInputChange,
+    handleInputFocus,
+  } = useAutocomplete({
+    items,
+    onChange,
+    onClick,
+    maxItems,
+  });
 
   return (
     <div ref={wrapperRef} className={cn(styles.wrapper)}>
       <Input
         value={value}
-        onChange={(e) => {
-          onChange(e.target.value);
-          setIsOpen(true);
-        }}
-        onFocus={() => setIsOpen(true)}
+        onChange={handleInputChange}
+        onFocus={handleInputFocus}
         placeholder={placeholder}
         className={styles.input}
       />
@@ -67,7 +58,7 @@ export const Autocomplete = <T,>({
         />
       )}
 
-      {isLoading && <div className={styles.loading}>Loading...</div>}
+      {isLoading && <div className={styles.loader}></div>}
     </div>
   );
 };

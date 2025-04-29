@@ -2,6 +2,7 @@ import React from "react";
 import { Section } from "../../../shared/ui/section";
 import { Text } from "../../../shared/ui/text";
 import { ButtonsControl } from "../../../features/buttons-control";
+import { isNonEmptyString } from "../../../shared/lib";
 
 export const SecondButtonsControlsCase = () => {
   return (
@@ -18,7 +19,7 @@ export const SecondButtonsControlsCase = () => {
           {
             text: "Check if is number",
             onClick: (value) => {
-              if (Number.isFinite(Number(value))) {
+              if (isNonEmptyString(value) && Number.isFinite(Number(value))) {
                 alert(value);
               }
             },

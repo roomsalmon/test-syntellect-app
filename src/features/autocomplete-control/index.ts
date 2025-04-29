@@ -1,2 +1,2 @@
-export { default as AutocompleteControl } from './ui/AutocompleteControl';
-export type { AutocompleteControlProps } from './ui/AutocompleteControl';
+export { AutocompleteControl } from "./ui/AutocompleteControl";
+export type { AutocompleteControlProps } from "./ui/AutocompleteControl";

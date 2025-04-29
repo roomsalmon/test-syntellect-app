@@ -1,50 +1,38 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { Autocomplete } from "../../../shared/ui/autocomplete";
-import AutocompleteControlModel from "../model/AutocompleteControlModel";
 import { CountrySuggestionItem } from "./CountrySuggestionItem";
 import { Country } from "../../../entities/country";
+import { useAutocompleteControl } from "../hooks/useAutoCompleteControl";
 
 export interface AutocompleteControlProps {
   maxSuggestions?: number;
-  debounceDelay?: number;
   placeholder?: string;
 }
 
-const AutocompleteControl = observer(
+export const AutocompleteControl = observer(
   ({
     maxSuggestions = 5,
     placeholder = "Search country...",
   }: AutocompleteControlProps) => {
-    const model = React.useMemo(
-      () => new AutocompleteControlModel(maxSuggestions),
-      [maxSuggestions]
-    );
-
-    useEffect(() => {
-      model.loadSuggestions();
-    }, [model.query]);
+    const { query, suggestions, isLoading, setQuery, selectSuggestion } =
+      useAutocompleteControl(maxSuggestions);
 
     const renderCountryItem = (country: Country) => (
-      <CountrySuggestionItem
-        country={country}
-        onClick={model.selectSuggestion}
-      />
+      <CountrySuggestionItem country={country} onClick={selectSuggestion} />
     );
 
     return (
       <Autocomplete<Country>
-        value={model.query}
-        items={model.suggestions}
-        onChange={model.setQuery}
-        onClick={model.selectSuggestion}
+        value={query}
+        items={suggestions}
+        onChange={setQuery}
+        onClick={selectSuggestion}
         renderItem={renderCountryItem}
         placeholder={placeholder}
-        isLoading={model.isLoading}
+        isLoading={isLoading}
         maxItems={maxSuggestions}
       />
     );
   }
 );
-
-export default AutocompleteControl;
